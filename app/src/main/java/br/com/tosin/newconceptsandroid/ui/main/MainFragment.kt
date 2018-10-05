@@ -28,24 +28,20 @@ class MainFragment : Fragment() {
 
         viewModel.observeList { liveData ->
             liveData.observe(this, Observer { list ->
-                Log.d("TEST", "List size: ${list?.size}")
+                Log.d("TEST", "Main Fragment => List size: ${list?.size}")
             })
         }
 
         viewModel.observeError { liveData ->
             liveData.observe(this, Observer { error ->
-                val title = error?.title!!
-                val msg = error.msg
-                Log.d("ERROR", "Error received: ${getString(msg)}")
+                error?.let {
+                    val title = error.title
+                    val msg = error.msg
+                    Log.d("TEST", "Main Fragment => Error received: ${getString(msg)}")
+                }
+
             })
         }
-
         viewModel.fetchFakeData(context!!)
     }
-
-    override fun onDestroy() {
-        viewModel.destroyAnyRequest()
-        super.onDestroy()
-    }
-
 }
