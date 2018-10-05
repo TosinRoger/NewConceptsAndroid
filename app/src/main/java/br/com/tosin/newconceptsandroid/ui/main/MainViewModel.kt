@@ -17,13 +17,22 @@ typealias onError = (LiveData<ErrorResponse>) -> Unit
 class MainViewModel : ViewModel() {
 
     private val model = MainModel(this, FakeDataDatabase.getInstance(AppApplication.context!!)?.fakeDataDao())
+    private val viewModelJob = Job()
+    private val uiScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     private var fakeData = MutableLiveData<List<FakeData>>()
     private var messageError = MutableLiveData<ErrorResponse>()
 
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+        model.destroyAnyRequest()
+    }
+
+    // =============================================================================================
+
     fun fetchFakeData(context: Context) {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
         val activeNetwork = cm.activeNetworkInfo
         val isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
 
@@ -60,34 +69,13 @@ class MainViewModel : ViewModel() {
 
     // =============================================================================================
 
-    private var viewModelJob = Job()
-
-    private val uiScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-        model.destroyAnyRequest()
-    }
-
-    private fun saveLocalList(list: List<FakeData>) = uiScope.launch(Dispatchers.IO) {
+    private fun saveLocalList(list: List<FakeData>) {
         Log.d("TEST", "Try save List with ${list.size} items")
-        for (fake in list) {
-            model.insert(fake)
-        }
-        fetchLocalFakeData()
-    }
-
-    private fun fetchLocalFakeData()  {
-        uiScope.launch {
-            val aux = withContext(Dispatchers.IO) {
-                model.getFakeDataLocal()
+        uiScope.launch(Dispatchers.IO) {
+            for (fake in list) {
+                model.insert(fake)
             }
-            withContext(Dispatchers.Main) {
-                aux?.let { list ->
-                    fakeData.value = list
-                }
-            }
+            fetchLocalFakeData()
         }
     }
 
@@ -103,5 +91,18 @@ class MainViewModel : ViewModel() {
             model.removeFakeDataById(fakeData)
         }
         fetchLocalFakeData()
+    }
+
+    private fun fetchLocalFakeData()  {
+        uiScope.launch {
+            val aux = withContext(Dispatchers.IO) {
+                model.getFakeDataLocal()
+            }
+            withContext(Dispatchers.Main) {
+                aux?.let { list ->
+                    fakeData.value = list
+                }
+            }
+        }
     }
 }
