@@ -1,8 +1,10 @@
 package br.com.tosin.newconceptsandroid.ui.main
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,15 +18,34 @@ class MainFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        viewModel.observeList { liveData ->
+            liveData.observe(this, Observer { list ->
+                Log.d("TEST", "List size: ${list?.size}")
+            })
+        }
+
+        viewModel.observeError { liveData ->
+            liveData.observe(this, Observer { error ->
+                val title = error?.title!!
+                val msg = error.msg
+                Log.d("ERROR", "Error received: ${getString(msg)}")
+            })
+        }
+
+        viewModel.fetchFakeData(context!!)
+    }
+
+    override fun onDestroy() {
+        viewModel.destroyAnyRequest()
+        super.onDestroy()
     }
 
 }
