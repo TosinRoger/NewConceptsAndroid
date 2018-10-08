@@ -1,6 +1,7 @@
 package br.com.tosin.newconceptsandroid.ui.main
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import br.com.tosin.newconceptsandroid.R
@@ -49,5 +50,18 @@ class FakeAdapter: RecyclerView.Adapter<FakeViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun getItemList(index: Int): FakeData? {
+        return if (index in 0..list.size) {
+            list[index]
+        }
+        else {
+            null
+        }
+    }
+
+    fun removeItemByPosition(position: Int) {
+        this.list.removeAt(position)
+        notifyItemChanged(position)
+    }
 }
 
