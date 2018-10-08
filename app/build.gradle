@@ -72,6 +72,8 @@ dependencies {
     }
     kapt 'com.github.bumptech.glide:compiler:4.6.1'
 
+    // anko
+    implementation 'org.jetbrains.anko:anko:0.10.7'
 }
 
 kotlin {

@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.util.Log
 import br.com.tosin.newconceptsandroid.AppApplication
+import br.com.tosin.newconceptsandroid.R
 import br.com.tosin.newconceptsandroid.repository.database.FakeDataDatabase
 import br.com.tosin.newconceptsandroid.entity.ErrorResponse
 import br.com.tosin.newconceptsandroid.entity.FakeData
@@ -43,8 +44,10 @@ class MainViewModel : ViewModel() {
 
         if (isConnected)
             repository.getFakeDataRepository()
-        else
+        else {
+            errorRemoteGetFakeData(R.string.request_default_title, R.string.request_default_connection)
             fetchLocalFakeData()
+        }
     }
 
     fun responseRemoteGetFakeData(list: List<FakeData>?) {

@@ -12,10 +12,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import br.com.tosin.newconceptsandroid.R
 import br.com.tosin.newconceptsandroid.ui.main.adapter.FakeViewHolder
 import kotlinx.android.synthetic.main.main_fragment.view.*
+import org.jetbrains.anko.support.v4.alert
+import org.jetbrains.anko.support.v4.onRefresh
 
 class MainFragment : Fragment() {
 
@@ -55,6 +56,10 @@ class MainFragment : Fragment() {
         view.fab_main.setOnClickListener {
             showLoading(true)
             viewModel.refreshFakeData(mView.context)
+        }
+
+        view.swipereFresh_main.onRefresh {
+            viewModel.refreshFakeData(context!!)
         }
 
         val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -103,22 +108,36 @@ class MainFragment : Fragment() {
                     mView.textView_main_emptyList.visibility = View.GONE
                 }
                 Log.d("TEST", "Main Fragment => Receive received: ${list?.size}")
+                showLoading(false)
                 viewAdapter.setList(list ?: listOf())
             })
         }
 
         viewModel.observeErrorChange { liveData ->
             liveData.observe(this, Observer { error ->
+                showLoading(false)
                 error?.let {
                     val title = error.title
                     val msg = error.msg
                     Log.d("TEST", "Main Fragment => Error received: ${getString(msg)}")
+                    showMessage(getString(title), getString(msg))
                 }
             })
         }
     }
 
     private fun showLoading(show: Boolean) {
-        Toast.makeText(activity, "Atualizando lista", Toast.LENGTH_SHORT).show()
+        mView.swipereFresh_main.isRefreshing = show
     }
+
+    private fun showMessage(_title: String, _message: String) {
+        alert {
+            title = _title
+            message = _message
+            positiveButton("Ok") {
+
+            }
+        }.show()
+    }
+
 }
