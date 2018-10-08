@@ -12,11 +12,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
+        toolbar?.title = "Lista Fake"
+
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.title = "Lista Fake"
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()

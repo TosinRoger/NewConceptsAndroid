@@ -96,6 +96,7 @@ class MainFragment : Fragment() {
 
         }
         ItemTouchHelper(itemTouchHelper).attachToRecyclerView(view.recyclerView_main_fakeData)
+
     }
 
     private fun configVmObservers() {
