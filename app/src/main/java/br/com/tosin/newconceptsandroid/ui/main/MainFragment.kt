@@ -4,11 +4,15 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.RotateAnimation
+import android.widget.Toast
 import br.com.tosin.newconceptsandroid.R
+import kotlinx.android.synthetic.main.main_fragment.view.*
 
 class MainFragment : Fragment() {
 
@@ -17,31 +21,66 @@ class MainFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var mView: View
+    private lateinit var viewAdapter: FakeAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        val view = inflater.inflate(R.layout.main_fragment, container, false)
+
+        mView = view
+        configView(view)
+
+        return mView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
-        viewModel.observeList { liveData ->
+        configVmObservers()
+    }
+
+    private fun configView(view: View) {
+        viewAdapter = FakeAdapter()
+
+        view.recyclerView_main_fakeData.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(view.context)
+            adapter = viewAdapter
+        }
+
+        view.fab_main.setOnClickListener {
+            showLoading(true)
+            viewModel.refreshFakeData(mView.context)
+        }
+    }
+
+    private fun configVmObservers() {
+        viewModel.observeListChange { liveData ->
             liveData.observe(this, Observer { list ->
-                Log.d("TEST", "Main Fragment => List size: ${list?.size}")
+                if (list == null || list.isEmpty()) {
+                    mView.textView_main_emptyList.visibility = View.VISIBLE
+                }
+                else {
+                    mView.textView_main_emptyList.visibility = View.GONE
+                }
+                Log.d("TEST", "Main Fragment => Receive received: ${list?.size}")
+                viewAdapter.setList(list ?: listOf())
             })
         }
 
-        viewModel.observeError { liveData ->
+        viewModel.observeErrorChange { liveData ->
             liveData.observe(this, Observer { error ->
                 error?.let {
                     val title = error.title
                     val msg = error.msg
                     Log.d("TEST", "Main Fragment => Error received: ${getString(msg)}")
                 }
-
             })
         }
-        viewModel.fetchFakeData(context!!)
+    }
+
+    private fun showLoading(show: Boolean) {
+        Toast.makeText(activity, "Atualizando lista", Toast.LENGTH_SHORT).show()
     }
 }

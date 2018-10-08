@@ -10,4 +10,5 @@
 
     <string name="request_default_connection">Problemas com a conexão de internet</string>
     <string name="request_default_no_parse_data">Problemas com recepção dos dados, tente novamente!</string>
+    <string name="empty_list">Lista vazia</string>
 </resources>

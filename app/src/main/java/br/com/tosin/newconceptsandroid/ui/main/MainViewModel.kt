@@ -5,7 +5,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.util.Log
 import br.com.tosin.newconceptsandroid.AppApplication
-import br.com.tosin.newconceptsandroid.database.FakeDataDatabase
+import br.com.tosin.newconceptsandroid.repository.database.FakeDataDatabase
 import br.com.tosin.newconceptsandroid.entity.ErrorResponse
 import br.com.tosin.newconceptsandroid.entity.FakeData
 import kotlinx.coroutines.experimental.*
@@ -16,7 +16,7 @@ typealias onError = (LiveData<ErrorResponse>) -> Unit
 
 class MainViewModel : ViewModel() {
 
-    private val model = MainModel(this, FakeDataDatabase.getInstance(AppApplication.context!!)?.fakeDataDao())
+    private val repository = MainRepository(this, FakeDataDatabase.getInstance(AppApplication.context!!)?.fakeDataDao())
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
@@ -26,54 +26,60 @@ class MainViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
-        model.destroyAnyRequest()
+        repository.destroyAnyRequest()
     }
 
     // =============================================================================================
+    // BUSINESS LOGIC
+    // =============================================================================================
 
-    fun fetchFakeData(context: Context) {
+    /**
+     * Try get data from internet, if not possible get from database
+     */
+    fun refreshFakeData(context: Context) {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = cm.activeNetworkInfo
         val isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
 
         if (isConnected)
-            model.getFakeDataRepository()
+            repository.getFakeDataRepository()
         else
             fetchLocalFakeData()
     }
 
-    fun resolveFakeDataList(list: List<FakeData>?) {
-        fakeData.value = list ?: listOf()
-
-        if (list != null)
+    fun responseRemoteGetFakeData(list: List<FakeData>?) {
+        list?.let {
             saveLocalList(list)
+        }
+        fakeData.value = list
     }
 
-    fun resolveRequestError(title: Int, msg: Int) {
+    fun errorRemoteGetFakeData(title: Int, msg: Int) {
         val message = ErrorResponse(title, msg)
         messageError.value = message
     }
 
-    fun observeList(temp: onList) {
+    // =============================================================================================
+    // UI OBSERVER LIVE DATA
+    // =============================================================================================
+
+    fun observeListChange(temp: onList) {
         temp(fakeData)
     }
 
-    fun observeError(temp: onError) {
+    fun observeErrorChange(temp: onError) {
         temp(messageError)
     }
 
-    fun resolveDbList(list: List<FakeData>?) {
-        Log.d("TEST", "Received from DB list with ${list?.size} items")
-        fakeData.value = list ?: listOf()
-    }
-
+    // =============================================================================================
+    // LOGIC DATABASE
     // =============================================================================================
 
     private fun saveLocalList(list: List<FakeData>) {
         Log.d("TEST", "Try save List with ${list.size} items")
         uiScope.launch(Dispatchers.IO) {
             for (fake in list) {
-                model.insert(fake)
+                repository.insert(fake)
             }
             fetchLocalFakeData()
         }
@@ -81,14 +87,14 @@ class MainViewModel : ViewModel() {
 
     fun cleanListLocal() {
         uiScope.launch(Dispatchers.IO) {
-            model.cleanListLocal()
+            repository.cleanListLocal()
         }
         fetchLocalFakeData()
     }
 
     fun removeFakeDataById(fakeData: FakeData) {
         uiScope.launch(Dispatchers.IO) {
-            model.removeFakeDataById(fakeData)
+            repository.removeFakeDataById(fakeData)
         }
         fetchLocalFakeData()
     }
@@ -96,7 +102,7 @@ class MainViewModel : ViewModel() {
     private fun fetchLocalFakeData()  {
         uiScope.launch {
             val aux = withContext(Dispatchers.IO) {
-                model.getFakeDataLocal()
+                repository.getFakeDataLocal()
             }
             withContext(Dispatchers.Main) {
                 aux?.let { list ->

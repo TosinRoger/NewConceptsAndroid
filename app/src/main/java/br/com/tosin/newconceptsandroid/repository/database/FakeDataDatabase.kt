@@ -1,4 +1,4 @@
-package br.com.tosin.newconceptsandroid.database
+package br.com.tosin.newconceptsandroid.repository.database
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room

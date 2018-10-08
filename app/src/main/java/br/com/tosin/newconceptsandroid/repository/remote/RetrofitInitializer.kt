@@ -1,4 +1,4 @@
-package br.com.tosin.newconceptsandroid.repository
+package br.com.tosin.newconceptsandroid.repository.remote
 
 import br.com.tosin.newconceptsandroid.BuildConfig
 import okhttp3.OkHttpClient

@@ -1,4 +1,4 @@
-package br.com.tosin.newconceptsandroid.repository.interfaces
+package br.com.tosin.newconceptsandroid.repository.remote.interfaces
 
 import br.com.tosin.newconceptsandroid.entity.FakeData
 import io.reactivex.Observable
