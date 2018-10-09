@@ -10,7 +10,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 
-class FakeAdapter: RecyclerView.Adapter<FakeViewHolder>() {
+typealias onItemClicked = (item: FakeData, position: Int) -> Unit
+
+class FakeAdapter(val listener: onItemClicked): RecyclerView.Adapter<FakeViewHolder>() {
 
     private var list = mutableListOf<FakeData>()
 
@@ -42,6 +44,9 @@ class FakeAdapter: RecyclerView.Adapter<FakeViewHolder>() {
                 .apply(options)
                 .into(holder.image)
 
+        holder.itemView.setOnClickListener {
+            listener(fake, position)
+        }
     }
 
     fun setList(list: List<FakeData>) {

@@ -21,4 +21,7 @@ interface FakeDataDao {
 
     @Delete()
     fun removeById(fakeData: FakeData)
+
+    @Query("SELECT * FROM fake_data_table WHERE Id IN(:fakeDataId)")
+    fun fetchById(fakeDataId: String): FakeData?
 }

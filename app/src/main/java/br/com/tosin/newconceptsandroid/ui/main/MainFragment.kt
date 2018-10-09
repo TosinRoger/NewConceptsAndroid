@@ -2,6 +2,7 @@ package br.com.tosin.newconceptsandroid.ui.main
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -13,6 +14,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import br.com.tosin.newconceptsandroid.R
+import br.com.tosin.newconceptsandroid.entity.FakeData
+import br.com.tosin.newconceptsandroid.ui.detail.FakeDetailActivity
 import br.com.tosin.newconceptsandroid.ui.main.adapter.FakeViewHolder
 import kotlinx.android.synthetic.main.main_fragment.view.*
 import org.jetbrains.anko.support.v4.alert
@@ -45,7 +48,9 @@ class MainFragment : Fragment() {
     }
 
     private fun configView(view: View) {
-        viewAdapter = FakeAdapter()
+        viewAdapter = FakeAdapter { item, position ->
+            openDetails(item, position)
+        }
 
         view.recyclerView_main_fakeData.apply {
             setHasFixedSize(true)
@@ -139,6 +144,15 @@ class MainFragment : Fragment() {
 
             }
         }.show()
+    }
+
+    private fun openDetails(item: FakeData, position: Int) {
+        val extras = Bundle()
+        extras.putString("FAKE_ID", item.Id)
+
+        val intent = Intent(activity, FakeDetailActivity::class.java)
+        intent.putExtras(extras)
+        activity?.startActivity(intent)
     }
 
 }
