@@ -34,7 +34,6 @@ class FakeDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
 
-
         val fakeId = extras.getString("FAKE_ID", "")
 
         addListener()
