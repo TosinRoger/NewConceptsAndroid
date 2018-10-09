@@ -3,6 +3,7 @@ package br.com.tosin.newconceptsandroid.repository.database
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
+import android.arch.persistence.room.TypeConverters
 import android.content.Context
 import br.com.tosin.newconceptsandroid.entity.FakeData
 

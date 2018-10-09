@@ -1,7 +1,6 @@
 package br.com.tosin.newconceptsandroid.entity
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.*
 import android.support.annotation.NonNull
 import com.google.gson.annotations.SerializedName
 
@@ -32,6 +31,7 @@ data class FakeData(
 //                    @SerializedName("friends")
 //                    val friends: List<FriendsItem>?,
 //                    @SerializedName("tags")
+//                    @TypeConverters(StringTypeConvert::class)
 //                    val tags: List<String>?,
                     @SerializedName("favoriteFruit")
                     val favoriteFruit: String,
@@ -41,8 +41,9 @@ data class FakeData(
                     val eyeColor: String,
                     @SerializedName("phone")
                     val phone: String,
-//                    @SerializedName("name")
-//                    val name: Name,
+                    @SerializedName("name")
+                    @Embedded
+                    val name: Name,
                     @SerializedName("guid")
                     val guid: String,
                     @SerializedName("company")

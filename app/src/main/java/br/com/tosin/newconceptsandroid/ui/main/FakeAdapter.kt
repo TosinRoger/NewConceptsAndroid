@@ -1,7 +1,6 @@
 package br.com.tosin.newconceptsandroid.ui.main
 
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import br.com.tosin.newconceptsandroid.R
@@ -28,13 +27,14 @@ class FakeAdapter: RecyclerView.Adapter<FakeViewHolder>() {
     override fun onBindViewHolder(holder: FakeViewHolder, position: Int) {
         val fake = list[position]
 
-        holder.title.text = fake.email
+        val fullName = fake.name.first + " " +  fake.name.last
+        holder.title.text = fullName
         holder.msg.text = fake.about
 
         val options = RequestOptions()
             .centerCrop()
-            .placeholder(R.drawable.ic_launcher_background)
-            .error(R.drawable.ic_launcher_background)
+            .placeholder(R.drawable.ic_person_gray_24dp)
+            .error(R.drawable.ic_error_outline_red_24dp)
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
 
         Glide.with(holder.itemView.context)

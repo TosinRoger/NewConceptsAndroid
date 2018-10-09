@@ -5,7 +5,7 @@ import android.arch.persistence.room.PrimaryKey
 import android.support.annotation.NonNull
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "friend_table")
+//@Entity(tableName = "friend_table")
 data class FriendsItem(@SerializedName("id")
                        @PrimaryKey
                        @NonNull
