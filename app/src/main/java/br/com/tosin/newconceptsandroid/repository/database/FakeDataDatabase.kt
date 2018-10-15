@@ -1,10 +1,9 @@
 package br.com.tosin.newconceptsandroid.repository.database
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
-import android.arch.persistence.room.TypeConverters
 import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import br.com.tosin.newconceptsandroid.entity.FakeData
 
 @Database(entities = [FakeData::class], version = 1)

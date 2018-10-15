@@ -1,6 +1,6 @@
 package br.com.tosin.newconceptsandroid.ui.detail
 
-import android.support.annotation.WorkerThread
+import androidx.annotation.WorkerThread
 import br.com.tosin.newconceptsandroid.entity.FakeData
 import br.com.tosin.newconceptsandroid.repository.database.FakeDataDao
 

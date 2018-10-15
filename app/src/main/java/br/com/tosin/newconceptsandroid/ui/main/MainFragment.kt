@@ -1,27 +1,25 @@
 package br.com.tosin.newconceptsandroid.ui.main
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import br.com.tosin.newconceptsandroid.R
 import br.com.tosin.newconceptsandroid.entity.FakeData
+import br.com.tosin.newconceptsandroid.ui.common.MyDialogFragment
 import br.com.tosin.newconceptsandroid.ui.detail.FakeDetailActivity
+import br.com.tosin.newconceptsandroid.ui.main.adapter.FakeAdapter
 import br.com.tosin.newconceptsandroid.ui.main.adapter.FakeViewHolder
 import kotlinx.android.synthetic.main.main_fragment.view.*
-import org.jetbrains.anko.support.v4.alert
-import org.jetbrains.anko.support.v4.onRefresh
 
-class MainFragment : Fragment() {
+
+class MainFragment : androidx.fragment.app.Fragment() {
 
     companion object {
         fun newInstance() = MainFragment()
@@ -54,7 +52,7 @@ class MainFragment : Fragment() {
 
         view.recyclerView_main_fakeData.apply {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(view.context)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
             adapter = viewAdapter
         }
 
@@ -63,16 +61,16 @@ class MainFragment : Fragment() {
             viewModel.refreshFakeData(mView.context)
         }
 
-        view.swipereFresh_main.onRefresh {
+        view.swipereFresh_main.setOnRefreshListener {
             viewModel.refreshFakeData(context!!)
         }
 
         val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            override fun onMove(recyclerView: RecyclerView, holder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+            override fun onMove(recyclerView: androidx.recyclerview.widget.RecyclerView, holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, target: androidx.recyclerview.widget.RecyclerView.ViewHolder): Boolean {
                 return false
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            override fun onSwiped(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, direction: Int) {
                 // remove item from adapter
                 val position = viewHolder.adapterPosition
                 val item = viewAdapter.getItemList(position)
@@ -83,18 +81,18 @@ class MainFragment : Fragment() {
                 ItemTouchHelper.Callback.getDefaultUIUtil().onSelected(foreground)
             }
 
-            override fun onChildDrawOver(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder?, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+            override fun onChildDrawOver(c: Canvas, recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder?, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
                 val foreground = (viewHolder as FakeViewHolder).foreground
                 ItemTouchHelper.Callback.getDefaultUIUtil().onDrawOver(c, recyclerView, foreground, dX, dY, actionState, isCurrentlyActive)
 
             }
 
-            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            override fun clearView(recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
                 val foreground = (viewHolder as FakeViewHolder).foreground
                 ItemTouchHelper.Callback.getDefaultUIUtil().clearView(foreground)
             }
 
-            override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+            override fun onChildDraw(c: Canvas, recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
                 val foreground = (viewHolder as FakeViewHolder).foreground
                 ItemTouchHelper.Callback.getDefaultUIUtil().onDraw(c, recyclerView, foreground, dX, dY, actionState, isCurrentlyActive)
             }
@@ -137,13 +135,8 @@ class MainFragment : Fragment() {
     }
 
     private fun showMessage(_title: String, _message: String) {
-        alert {
-            title = _title
-            message = _message
-            positiveButton("Ok") {
-
-            }
-        }.show()
+        val dialog = MyDialogFragment.newInstance(_title, _message)
+        dialog.show(childFragmentManager, "dialog")
     }
 
     private fun openDetails(item: FakeData, position: Int) {

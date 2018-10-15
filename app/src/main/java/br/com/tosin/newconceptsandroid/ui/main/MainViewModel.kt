@@ -1,6 +1,6 @@
 package br.com.tosin.newconceptsandroid.ui.main
 
-import android.arch.lifecycle.*
+import androidx.lifecycle.*
 import android.content.Context
 import android.net.ConnectivityManager
 import android.util.Log

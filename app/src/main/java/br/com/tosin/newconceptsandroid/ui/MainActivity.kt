@@ -1,7 +1,7 @@
 package br.com.tosin.newconceptsandroid.ui
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import br.com.tosin.newconceptsandroid.R
 import br.com.tosin.newconceptsandroid.ui.main.MainFragment
 import kotlinx.android.synthetic.main.main_activity.*

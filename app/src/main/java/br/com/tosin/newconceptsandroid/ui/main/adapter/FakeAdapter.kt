@@ -1,18 +1,16 @@
-package br.com.tosin.newconceptsandroid.ui.main
+package br.com.tosin.newconceptsandroid.ui.main.adapter
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import br.com.tosin.newconceptsandroid.R
 import br.com.tosin.newconceptsandroid.entity.FakeData
-import br.com.tosin.newconceptsandroid.ui.main.adapter.FakeViewHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 
 typealias onItemClicked = (item: FakeData, position: Int) -> Unit
 
-class FakeAdapter(val listener: onItemClicked): RecyclerView.Adapter<FakeViewHolder>() {
+class FakeAdapter(val listener: onItemClicked): androidx.recyclerview.widget.RecyclerView.Adapter<FakeViewHolder>() {
 
     private var list = mutableListOf<FakeData>()
 
