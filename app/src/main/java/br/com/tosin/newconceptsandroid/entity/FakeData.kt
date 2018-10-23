@@ -2,6 +2,8 @@ package br.com.tosin.newconceptsandroid.entity
 
 import androidx.room.*
 import androidx.annotation.NonNull
+import br.com.tosin.newconceptsandroid.repository.database.IntConverter
+import br.com.tosin.newconceptsandroid.repository.database.StringConverter
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "fake_data_table")
@@ -22,17 +24,18 @@ data class FakeData(
                     val index: Int,
                     @SerializedName("registered")
                     val registered: String,
-//                    @SerializedName("range")
-//                    val range: List<Integer>?,
+                    @SerializedName("range")
+                    @TypeConverters(IntConverter::class)
+                    val range: List<Int>?,
                     @SerializedName("isActive")
                     val isActive: Boolean,
                     @SerializedName("picture")
                     val picture: String,
 //                    @SerializedName("friends")
 //                    val friends: List<FriendsItem>?,
-//                    @SerializedName("tags")
-//                    @TypeConverters(StringTypeConvert::class)
-//                    val tags: List<String>?,
+                    @SerializedName("tags")
+                    @TypeConverters(StringConverter::class)
+                    val tags: List<String>?,
                     @SerializedName("favoriteFruit")
                     val favoriteFruit: String,
                     @SerializedName("balance")

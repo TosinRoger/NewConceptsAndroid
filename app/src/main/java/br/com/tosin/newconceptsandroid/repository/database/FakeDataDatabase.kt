@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import br.com.tosin.newconceptsandroid.entity.FakeData
 
 @Database(entities = [FakeData::class], version = 1)
+@TypeConverters(StringConverter::class, IntConverter::class)
 abstract class FakeDataDatabase: RoomDatabase() {
 
     abstract fun fakeDataDao(): FakeDataDao
