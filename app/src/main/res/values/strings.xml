@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">NewConceptsAndroid</string>
+
+    <string name="request_default_title">Error</string>
+    <string name="request_default_1xx">Servidor em teste.</string>
+    <string name="request_default_2xx">Mensagem recebida.</string>
+    <string name="request_default_3xx">O servidor foi movido, por favor baixar a versão mais recente do app.</string>
+    <string name="request_default_4xx">Problemas na requisição. Verifique os dados digitados ou contate o suporte.</string>
+    <string name="request_default_5xx">Problemas com o servidor. Tente novamente em alguns minutos.</string>
+
+    <string name="request_default_connection">Problemas com a conexão de internet</string>
+    <string name="request_default_no_parse_data">Problemas com recepção dos dados, tente novamente!</string>
+    <string name="empty_list">Lista vazia</string>
+    <string name="error_fetch_fake_in_db">Não foi possível encontrar os dados fake no BD</string>
 </resources>
