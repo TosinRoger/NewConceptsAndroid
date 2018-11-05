@@ -12,7 +12,6 @@ import br.com.tosin.newconceptsandroid.entity.FakeData
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
 
-typealias onList = (LiveData<List<FakeData>>) -> Unit
 typealias onError = (LiveData<ErrorResponse>) -> Unit
 
 class MainViewModel : ViewModel() {
@@ -66,9 +65,12 @@ class MainViewModel : ViewModel() {
     // UI OBSERVER LIVE DATA
     // =============================================================================================
 
-    fun observeListChange(temp: onList) {
-        temp(fakeData)
+    fun getFakeList(): LiveData<List<FakeData>> {
+        return fakeData
     }
+//    fun observeListChange(temp: onList) {
+//        temp(fakeData)
+//    }
 
     fun observeErrorChange(temp: onError) {
         temp(messageError)

@@ -103,19 +103,17 @@ class MainFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun configVmObservers() {
-        viewModel.observeListChange { liveData ->
-            liveData.observe(this, Observer { list ->
-                if (list == null || list.isEmpty()) {
-                    mView.textView_main_emptyList.visibility = View.VISIBLE
-                }
-                else {
-                    mView.textView_main_emptyList.visibility = View.GONE
-                }
-                Log.d("TEST", "Main Fragment => Receive received: ${list?.size}")
-                showLoading(false)
-                viewAdapter.setList(list ?: listOf())
-            })
-        }
+        viewModel.getFakeList().observe(this, Observer { list ->
+            if (list == null || list.isEmpty()) {
+                mView.textView_main_emptyList.visibility = View.VISIBLE
+            }
+            else {
+                mView.textView_main_emptyList.visibility = View.GONE
+            }
+            Log.d("TEST", "Main Fragment => Receive received: ${list?.size}")
+            showLoading(false)
+            viewAdapter.setList(list ?: listOf())
+        })
 
         viewModel.observeErrorChange { liveData ->
             liveData.observe(this, Observer { error ->
