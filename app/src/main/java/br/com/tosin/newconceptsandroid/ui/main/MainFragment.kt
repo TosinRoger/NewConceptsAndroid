@@ -3,7 +3,6 @@ package br.com.tosin.newconceptsandroid.ui.main
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import br.com.tosin.newconceptsandroid.ui.detail.FakeDetailActivity
 import br.com.tosin.newconceptsandroid.ui.main.adapter.FakeAdapter
 import br.com.tosin.newconceptsandroid.ui.main.adapter.FakeViewHolder
 import kotlinx.android.synthetic.main.main_fragment.view.*
-
 
 class MainFragment : androidx.fragment.app.Fragment() {
 
@@ -84,7 +82,6 @@ class MainFragment : androidx.fragment.app.Fragment() {
             override fun onChildDrawOver(c: Canvas, recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder?, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
                 val foreground = (viewHolder as FakeViewHolder).foreground
                 ItemTouchHelper.Callback.getDefaultUIUtil().onDrawOver(c, recyclerView, foreground, dX, dY, actionState, isCurrentlyActive)
-
             }
 
             override fun clearView(recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
@@ -96,7 +93,6 @@ class MainFragment : androidx.fragment.app.Fragment() {
                 val foreground = (viewHolder as FakeViewHolder).foreground
                 ItemTouchHelper.Callback.getDefaultUIUtil().onDraw(c, recyclerView, foreground, dX, dY, actionState, isCurrentlyActive)
             }
-
         }
         ItemTouchHelper(itemTouchHelper).attachToRecyclerView(view.recyclerView_main_fakeData)
 
@@ -110,7 +106,6 @@ class MainFragment : androidx.fragment.app.Fragment() {
             else {
                 mView.textView_main_emptyList.visibility = View.GONE
             }
-            Log.d("TEST", "Main Fragment => Receive received: ${list?.size}")
             showLoading(false)
             viewAdapter.setList(list ?: listOf())
         })
@@ -121,7 +116,6 @@ class MainFragment : androidx.fragment.app.Fragment() {
                 error?.let {
                     val title = error.title
                     val msg = error.msg
-                    Log.d("TEST", "Main Fragment => Error received: ${getString(msg)}")
                     showMessage(getString(title), getString(msg))
                 }
             })
@@ -145,5 +139,4 @@ class MainFragment : androidx.fragment.app.Fragment() {
         intent.putExtras(extras)
         activity?.startActivity(intent)
     }
-
 }

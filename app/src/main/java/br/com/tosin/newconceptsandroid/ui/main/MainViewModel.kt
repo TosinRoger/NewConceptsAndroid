@@ -68,9 +68,6 @@ class MainViewModel : ViewModel() {
     fun getFakeList(): LiveData<List<FakeData>> {
         return fakeData
     }
-//    fun observeListChange(temp: onList) {
-//        temp(fakeData)
-//    }
 
     fun observeErrorChange(temp: onError) {
         temp(messageError)
