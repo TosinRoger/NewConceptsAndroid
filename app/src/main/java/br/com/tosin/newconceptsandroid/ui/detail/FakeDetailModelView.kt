@@ -8,8 +8,8 @@ import br.com.tosin.newconceptsandroid.R
 import br.com.tosin.newconceptsandroid.entity.ErrorResponse
 import br.com.tosin.newconceptsandroid.entity.FakeData
 import br.com.tosin.newconceptsandroid.repository.database.FakeDataDatabase
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.Main
 
 typealias onError = (LiveData<ErrorResponse>) -> Unit
 typealias onFake = (LiveData<FakeData>) -> Unit
@@ -21,7 +21,7 @@ class FakeDetailModelView: ViewModel() {
     private var messageError = MutableLiveData<ErrorResponse>()
 
     private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(viewModelJob + kotlinx.coroutines.experimental.Dispatchers.Main)
+    private val uiScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     fun fetchFakeDataById(fakeDataId: String) {
         uiScope.launch {
