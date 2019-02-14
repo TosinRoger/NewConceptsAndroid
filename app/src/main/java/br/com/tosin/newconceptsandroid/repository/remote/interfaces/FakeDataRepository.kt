@@ -7,5 +7,5 @@ import retrofit2.http.GET
 interface FakeDataRepository {
 
     @GET("/TosinRoger/FakeTestData/master/FakeData.json")
-    fun getFakeData(): Observable<List<FakeData>>
+    fun getFakeData(): Observable<HashSet<FakeData>>
 }

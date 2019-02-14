@@ -9,10 +9,9 @@ import br.com.tosin.newconceptsandroid.R
 import br.com.tosin.newconceptsandroid.repository.database.FakeDataDatabase
 import br.com.tosin.newconceptsandroid.entity.ErrorResponse
 import br.com.tosin.newconceptsandroid.entity.FakeData
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.Main
 
-typealias onList = (LiveData<List<FakeData>>) -> Unit
 typealias onError = (LiveData<ErrorResponse>) -> Unit
 
 class MainViewModel : ViewModel() {
@@ -21,7 +20,7 @@ class MainViewModel : ViewModel() {
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    private var fakeData = MutableLiveData<List<FakeData>>()
+    private var fakeData = MutableLiveData<HashSet<FakeData>>()
     private var messageError = MutableLiveData<ErrorResponse>()
 
     override fun onCleared() {
@@ -50,7 +49,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun responseRemoteGetFakeData(list: List<FakeData>?) {
+    fun responseRemoteGetFakeData(list: HashSet<FakeData>?) {
         list?.let {
             saveLocalList(list)
         }
@@ -66,8 +65,8 @@ class MainViewModel : ViewModel() {
     // UI OBSERVER LIVE DATA
     // =============================================================================================
 
-    fun observeListChange(temp: onList) {
-        temp(fakeData)
+    fun getFakeList(): LiveData<HashSet<FakeData>> {
+        return fakeData
     }
 
     fun observeErrorChange(temp: onError) {
@@ -78,7 +77,7 @@ class MainViewModel : ViewModel() {
     // LOGIC DATABASE
     // =============================================================================================
 
-    private fun saveLocalList(list: List<FakeData>) {
+    private fun saveLocalList(list: HashSet<FakeData>) {
         Log.d("TEST", "Try save List with ${list.size} items")
         uiScope.launch(Dispatchers.IO) {
             for (fake in list) {

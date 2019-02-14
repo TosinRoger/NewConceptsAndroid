@@ -10,12 +10,12 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "0.1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "ENDPOINT", "\"https://raw.githubusercontent.com/\""
         }
@@ -33,12 +33,12 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
+    androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
 
     // Lifecyles, LiveData and ViewModel
     // Lifecycle components
@@ -57,13 +57,13 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
 
     // Room components
-    implementation "androidx.room:room-runtime:2.1.0-alpha01"
-    kapt "androidx.room:room-compiler:2.1.0-alpha01"
-    androidTestImplementation "androidx.room:room-testing:2.1.0-alpha01"
+    implementation "androidx.room:room-runtime:2.1.0-alpha04"
+    kapt "androidx.room:room-compiler:2.1.0-alpha04"
+    androidTestImplementation "androidx.room:room-testing:2.1.0-alpha04"
 
     // Coroutines
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.1"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.27.0-eap13"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.27.0-eap13"
     implementation 'com.google.android.material:material:1.0.0'
 
     // Glide
@@ -76,7 +76,7 @@ dependencies {
     implementation 'org.jetbrains.anko:anko:0.10.7'
 
     // Android X
-    implementation 'androidx.core:core-ktx:1.0.0'
+    implementation 'androidx.core:core-ktx:1.0.1'
 
     // LeakCanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'

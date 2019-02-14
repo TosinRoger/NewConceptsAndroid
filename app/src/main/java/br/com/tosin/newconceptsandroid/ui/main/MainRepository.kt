@@ -67,8 +67,8 @@ class MainRepository(private val viewModel: MainViewModel, private val fakeDataD
         fakeDataDao?.removeById(fakeData)
     }
 
-    fun getFakeDataLocal(): List<FakeData>? {
-        return fakeDataDao?.getAll()
+    fun getFakeDataLocal(): HashSet<FakeData>? {
+        return fakeDataDao?.getAll()?.toHashSet()
     }
 
 }
