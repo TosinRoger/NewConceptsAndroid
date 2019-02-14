@@ -99,15 +99,15 @@ class MainFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun configVmObservers() {
-        viewModel.getFakeList().observe(this, Observer { list ->
-            if (list == null || list.isEmpty()) {
+        viewModel.getFakeList().observe(this, Observer { fakeList ->
+            if (fakeList == null || fakeList.isEmpty()) {
                 mView.textView_main_emptyList.visibility = View.VISIBLE
             }
             else {
                 mView.textView_main_emptyList.visibility = View.GONE
             }
             showLoading(false)
-            viewAdapter.setList(list ?: listOf())
+            viewAdapter.setList(fakeList.toList())
         })
 
         viewModel.observeErrorChange { liveData ->
