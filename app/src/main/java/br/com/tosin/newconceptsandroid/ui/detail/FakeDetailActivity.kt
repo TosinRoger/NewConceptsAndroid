@@ -1,10 +1,10 @@
 package br.com.tosin.newconceptsandroid.ui.detail
 
+import android.os.Bundle
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import android.view.MenuItem
 import br.com.tosin.newconceptsandroid.R
 import br.com.tosin.newconceptsandroid.entity.FakeData
 import com.bumptech.glide.Glide

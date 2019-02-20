@@ -1,14 +1,16 @@
 package br.com.tosin.newconceptsandroid.ui.main
 
-import androidx.lifecycle.*
 import android.content.Context
 import android.net.ConnectivityManager
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import br.com.tosin.newconceptsandroid.AppApplication
 import br.com.tosin.newconceptsandroid.R
-import br.com.tosin.newconceptsandroid.repository.database.FakeDataDatabase
 import br.com.tosin.newconceptsandroid.entity.ErrorResponse
 import br.com.tosin.newconceptsandroid.entity.FakeData
+import br.com.tosin.newconceptsandroid.repository.database.FakeDataDatabase
 import kotlinx.coroutines.*
 import kotlinx.coroutines.android.Main
 

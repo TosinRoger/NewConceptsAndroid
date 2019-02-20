@@ -1,7 +1,10 @@
 package br.com.tosin.newconceptsandroid.entity
 
-import androidx.room.*
 import androidx.annotation.NonNull
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import br.com.tosin.newconceptsandroid.repository.database.IntConverter
 import br.com.tosin.newconceptsandroid.repository.database.StringConverter
 import com.google.gson.annotations.SerializedName

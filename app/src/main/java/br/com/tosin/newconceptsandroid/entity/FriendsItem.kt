@@ -1,10 +1,7 @@
 package br.com.tosin.newconceptsandroid.entity
 
-import androidx.room.PrimaryKey
 import androidx.annotation.NonNull
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 //@Entity (

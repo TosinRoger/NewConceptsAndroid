@@ -2,8 +2,8 @@ package br.com.tosin.newconceptsandroid.ui.main
 
 import androidx.annotation.WorkerThread
 import br.com.tosin.newconceptsandroid.R
-import br.com.tosin.newconceptsandroid.repository.database.FakeDataDao
 import br.com.tosin.newconceptsandroid.entity.FakeData
+import br.com.tosin.newconceptsandroid.repository.database.FakeDataDao
 import br.com.tosin.newconceptsandroid.repository.remote.RetrofitInitializer
 import br.com.tosin.newconceptsandroid.repository.remote.interfaces.FakeDataRepository
 import br.com.tosin.newconceptsandroid.utils.DefineMessageError
