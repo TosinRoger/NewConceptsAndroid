@@ -27,7 +27,7 @@ class MyDialogFragment: DialogFragment() {
         val builder = AlertDialog.Builder(activity!!)
         builder.setTitle(title)
         builder.setMessage(msg)
-        builder.setPositiveButton("OK") { dialog, id ->
+        builder.setPositiveButton("OK") { dialog, _ ->
             // User clicked OK button
             dialog.dismiss()
         }

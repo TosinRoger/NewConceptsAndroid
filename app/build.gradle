@@ -37,8 +37,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
+    androidTestImplementation 'androidx.test:runner:1.1.2-alpha02'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha02'
 
     // Lifecyles, LiveData and ViewModel
     // Lifecycle components
@@ -57,13 +57,13 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
 
     // Room components
-    implementation "androidx.room:room-runtime:2.1.0-alpha04"
-    kapt "androidx.room:room-compiler:2.1.0-alpha04"
-    androidTestImplementation "androidx.room:room-testing:2.1.0-alpha04"
+    implementation "androidx.room:room-runtime:2.1.0-alpha06"
+    kapt "androidx.room:room-compiler:2.1.0-alpha06"
+    androidTestImplementation "androidx.room:room-testing:2.1.0-alpha06"
 
     // Coroutines
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.27.0-eap13"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.27.0-eap13"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1"
     implementation 'com.google.android.material:material:1.0.0'
 
     // Glide

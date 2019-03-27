@@ -12,7 +12,6 @@ import br.com.tosin.newconceptsandroid.entity.ErrorResponse
 import br.com.tosin.newconceptsandroid.entity.FakeData
 import br.com.tosin.newconceptsandroid.repository.database.FakeDataDatabase
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
 
 typealias onError = (LiveData<ErrorResponse>) -> Unit
 
