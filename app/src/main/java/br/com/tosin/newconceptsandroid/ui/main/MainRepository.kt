@@ -15,7 +15,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
 
-class MainRepository(private val viewModel: MainViewModel, private val fakeDataDao: FakeDataDao?) {
+class MainRepository(private val viewModel: MainViewModel) {
 
     private var compositeDisposable = CompositeDisposable()
     private val service = RetrofitInitializer.createService(FakeDataRepository::class.java)
@@ -54,21 +54,22 @@ class MainRepository(private val viewModel: MainViewModel, private val fakeDataD
 
     @WorkerThread
     fun insert(fakeData: FakeData) {
-        fakeDataDao?.insert(fakeData)
+//        fakeDataDao?.insert(fakeData)
     }
 
     @WorkerThread
     fun cleanListLocal() {
-        fakeDataDao?.deleteAll()
+//        fakeDataDao?.deleteAll()
     }
 
     @WorkerThread
     fun removeFakeDataById(fakeData: FakeData) {
-        fakeDataDao?.removeById(fakeData)
+//        fakeDataDao?.removeById(fakeData)
     }
 
     fun getFakeDataLocal(): HashSet<FakeData>? {
-        return fakeDataDao?.getAll()?.toHashSet()
+//        return fakeDataDao?.getAll()?.toHashSet()
+        return null
     }
 
 }

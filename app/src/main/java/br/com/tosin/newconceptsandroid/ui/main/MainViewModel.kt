@@ -17,7 +17,8 @@ typealias onError = (LiveData<ErrorResponse>) -> Unit
 
 class MainViewModel : ViewModel() {
 
-    private val repository = MainRepository(this, FakeDataDatabase.getInstance(AppApplication.context!!)?.fakeDataDao())
+//    private val repository = MainRepository(this, FakeDataDatabase.getInstance(AppApplication.context!!)?.fakeDataDao())
+    private val repository = MainRepository(this)
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
