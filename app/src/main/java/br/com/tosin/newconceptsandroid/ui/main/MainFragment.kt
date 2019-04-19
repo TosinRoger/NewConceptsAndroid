@@ -100,7 +100,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
     private fun configVmObservers() {
         viewModel.getFakeList().observe(this, Observer { fakeList ->
-            if (fakeList == null || fakeList.isEmpty()) {
+            if (fakeList.isNullOrEmpty()) {
                 mView.textView_main_emptyList.visibility = View.VISIBLE
             }
             else {
