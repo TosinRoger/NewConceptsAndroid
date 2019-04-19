@@ -20,6 +20,8 @@ class MainRepository(private val viewModel: MainViewModel) {
     private var compositeDisposable = CompositeDisposable()
     private val service = RetrofitInitializer.createService(FakeDataRepository::class.java)
 
+    private var arrayProvisional = hashSetOf<FakeData>()
+
     // =============================================================================================
     // WEB REQUESTS
     // =============================================================================================
@@ -54,11 +56,13 @@ class MainRepository(private val viewModel: MainViewModel) {
 
     @WorkerThread
     fun insert(fakeData: FakeData) {
+        arrayProvisional.add(fakeData)
 //        fakeDataDao?.insert(fakeData)
     }
 
     @WorkerThread
     fun cleanListLocal() {
+        arrayProvisional.clear()
 //        fakeDataDao?.deleteAll()
     }
 
@@ -69,7 +73,7 @@ class MainRepository(private val viewModel: MainViewModel) {
 
     fun getFakeDataLocal(): HashSet<FakeData>? {
 //        return fakeDataDao?.getAll()?.toHashSet()
-        return null
+        return arrayProvisional
     }
 
 }
