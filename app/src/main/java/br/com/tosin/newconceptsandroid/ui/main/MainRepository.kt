@@ -3,7 +3,6 @@ package br.com.tosin.newconceptsandroid.ui.main
 import androidx.annotation.WorkerThread
 import br.com.tosin.newconceptsandroid.R
 import br.com.tosin.newconceptsandroid.entity.FakeData
-import br.com.tosin.newconceptsandroid.repository.database.FakeDataDao
 import br.com.tosin.newconceptsandroid.repository.remote.RetrofitInitializer
 import br.com.tosin.newconceptsandroid.repository.remote.interfaces.FakeDataRepository
 import br.com.tosin.newconceptsandroid.utils.DefineMessageError
@@ -15,7 +14,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
 
-class MainRepository(private val viewModel: MainViewModel) {
+class MainRepository(private val viewModel: MainViewModel): MainContract.IntMainRepository {
 
     private var compositeDisposable = CompositeDisposable()
     private val service = RetrofitInitializer.createService(FakeDataRepository::class.java)
@@ -26,7 +25,7 @@ class MainRepository(private val viewModel: MainViewModel) {
     // WEB REQUESTS
     // =============================================================================================
 
-    fun getFakeDataRepository() {
+    override fun getFakeDataRepository() {
         val disposable = service.getFakeData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

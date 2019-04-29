@@ -17,7 +17,7 @@ import br.com.tosin.newconceptsandroid.ui.main.adapter.FakeAdapter
 import br.com.tosin.newconceptsandroid.ui.main.adapter.FakeViewHolder
 import kotlinx.android.synthetic.main.main_fragment.view.*
 
-class MainFragment : androidx.fragment.app.Fragment() {
+class MainFragment : MainContract.MainView, androidx.fragment.app.Fragment() {
 
     companion object {
         fun newInstance() = MainFragment()
@@ -122,16 +122,16 @@ class MainFragment : androidx.fragment.app.Fragment() {
         }
     }
 
-    private fun showLoading(show: Boolean) {
+    override fun showLoading(show: Boolean) {
         mView.swipereFresh_main.isRefreshing = show
     }
 
-    private fun showMessage(_title: String, _message: String) {
+    override fun showMessage(_title: String, _message: String) {
         val dialog = MyDialogFragment.newInstance(_title, _message)
         dialog.show(childFragmentManager, "dialog")
     }
 
-    private fun openDetails(item: FakeData, position: Int) {
+    override fun openDetails(item: FakeData, position: Int) {
         val extras = Bundle()
         extras.putString("FAKE_ID", item.Id)
 

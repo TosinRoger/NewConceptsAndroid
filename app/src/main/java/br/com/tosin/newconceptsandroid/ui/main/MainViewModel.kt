@@ -6,16 +6,17 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import br.com.tosin.newconceptsandroid.AppApplication
 import br.com.tosin.newconceptsandroid.R
 import br.com.tosin.newconceptsandroid.entity.ErrorResponse
 import br.com.tosin.newconceptsandroid.entity.FakeData
-import br.com.tosin.newconceptsandroid.repository.database.FakeDataDatabase
+import br.com.tosin.newconceptsandroid.repository.remote.RetrofitInitializer
+import br.com.tosin.newconceptsandroid.repository.remote.interfaces.FakeDataCoroutineRepository
 import kotlinx.coroutines.*
+import java.lang.Exception
 
 typealias onError = (LiveData<ErrorResponse>) -> Unit
 
-class MainViewModel : ViewModel() {
+class MainViewModel : MainContract.MainUserActionListener, ViewModel() {
 
 //    private val repository = MainRepository(this, FakeDataDatabase.getInstance(AppApplication.context!!)?.fakeDataDao())
     private val repository = MainRepository(this)
@@ -38,27 +39,50 @@ class MainViewModel : ViewModel() {
     /**
      * Try get data from internet, if not possible get from database
      */
-    fun refreshFakeData(context: Context) {
+    override fun refreshFakeData(context: Context) {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = cm.activeNetworkInfo
         val isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
 
-        if (isConnected)
-            repository.getFakeDataRepository()
-        else {
-            errorRemoteGetFakeData(R.string.request_default_title, R.string.request_default_connection)
-            fetchLocalFakeData()
+        if (isConnected){
+
+            uiScope.launch {
+                val response = withContext(Dispatchers.IO) {
+                    val retrofit = RetrofitInitializer.createService(FakeDataCoroutineRepository::class.java)
+                    val call = retrofit.getFakeDataCoroutineAsync()
+
+                    val temp = try {
+                        call.await().body()
+                    } catch (e: Exception) {
+                        e
+                    }
+
+                    temp
+                }
+                withContext(Dispatchers.Main) {
+
+                    if (response is Exception) {
+                        errorRemoteGetFakeData(R.string.request_default_title, R.string.request_default_connection)
+                    } else {
+                        responseRemoteGetFakeData(response as HashSet<FakeData>?)
+                        fetchLocalFakeData()
+                    }
+
+                    Log.d("Batata", "Error: $response")
+
+                }
+            }
         }
     }
 
-    fun responseRemoteGetFakeData(list: HashSet<FakeData>?) {
+    override fun responseRemoteGetFakeData(list: HashSet<FakeData>?) {
         list?.let {
             saveLocalList(list)
         }
         fakeData.value = list
     }
 
-    fun errorRemoteGetFakeData(title: Int, msg: Int) {
+    override fun errorRemoteGetFakeData(title: Int, msg: Int) {
         val message = ErrorResponse(title, msg)
         messageError.value = message
     }
@@ -67,11 +91,11 @@ class MainViewModel : ViewModel() {
     // UI OBSERVER LIVE DATA
     // =============================================================================================
 
-    fun getFakeList(): LiveData<HashSet<FakeData>> {
+    override fun getFakeList(): LiveData<HashSet<FakeData>> {
         return fakeData
     }
 
-    fun observeErrorChange(temp: onError) {
+    override fun observeErrorChange(temp: onError) {
         temp(messageError)
     }
 
@@ -96,7 +120,7 @@ class MainViewModel : ViewModel() {
         fetchLocalFakeData()
     }
 
-    fun removeFakeDataById(fakeData: FakeData) {
+    override fun removeFakeDataById(fakeData: FakeData) {
         uiScope.launch(Dispatchers.IO) {
             repository.removeFakeDataById(fakeData)
         }

@@ -1,6 +1,7 @@
 package br.com.tosin.newconceptsandroid.repository.remote
 
 import br.com.tosin.newconceptsandroid.BuildConfig
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,6 +18,7 @@ object RetrofitInitializer {
                 .baseUrl(BuildConfig.ENDPOINT)
                 .client(builderClient())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
     }
