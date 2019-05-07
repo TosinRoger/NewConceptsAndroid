@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NewConceptsAndroid</string>
+    <string name="app_name">New Concepts Android</string>
 
     <string name="request_default_title">Error</string>
     <string name="request_default_1xx">Servidor em teste.</string>
